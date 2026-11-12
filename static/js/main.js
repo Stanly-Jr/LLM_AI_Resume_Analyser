@@ -46,7 +46,8 @@ function handleFile(file) {
 }
 
 // ─── Analyse ─────────────────────────────────
-analyseBtn.addEventListener('click', async () => {
+analyseBtn.addEventListener('click', async (e) => {
+  e.stopPropagation();
   if (!selectedFile) return;
   showPage(pageLoading);
   animateLoadingSteps();
