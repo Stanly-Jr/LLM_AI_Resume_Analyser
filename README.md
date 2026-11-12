@@ -1,6 +1,6 @@
 # ResumeIQ – AI Resume Analyser
 
-> Powered by **Gemini 2.5 Flash-Lite** · Built with Flask + Vanilla JS
+> Powered by **Gemini 3.1 Flash-Lite** · Built with Flask + Vanilla JS
 
 A full-stack web app that takes a resume (PDF / DOCX / TXT), runs it through a structured AI analysis pipeline, and returns a detailed report with scores, ATS tips, keyword gaps, and bullet-point rewrites.
 
