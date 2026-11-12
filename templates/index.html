@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ResumeIQ – AI Resume Analyser</title>
+  <link rel="stylesheet" href="/static/css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+<!-- ░░ HERO / UPLOAD ░░ -->
+<div id="page-upload" class="page active">
+  <header class="hero-header">
+    <div class="logo">
+      <span class="logo-icon">⚡</span>
+      <span class="logo-text">ResumeIQ</span>
+    </div>
+    <p class="tagline">AI-powered resume analysis in seconds</p>
+  </header>
+
+  <main class="upload-main">
+    <div class="upload-card" id="drop-zone">
+      <div class="upload-icon">📄</div>
+      <h2>Drop your resume here</h2>
+      <p class="upload-sub">or click to browse</p>
+      <p class="upload-formats">PDF · DOCX · TXT</p>
+      <input type="file" id="file-input" accept=".pdf,.docx,.doc,.txt" hidden />
+      <button class="btn-primary" id="browse-btn">Choose File</button>
+      <div id="file-name-display" class="file-name-display hidden"></div>
+      <button class="btn-analyse hidden" id="analyse-btn">🔍 Analyse Resume</button>
+    </div>
+  </main>
+</div>
+
+<!-- ░░ LOADING ░░ -->
+<div id="page-loading" class="page">
+  <div class="loading-container">
+    <div class="spinner-ring"></div>
+    <h2 class="loading-title">Analysing your resume…</h2>
+    <p class="loading-sub" id="loading-step">Reading document…</p>
+    <div class="loading-steps">
+      <span class="step" id="s1">📄 Parsing</span>
+      <span class="step" id="s2">🤖 AI Analysis</span>
+      <span class="step" id="s3">📊 Scoring</span>
+      <span class="step" id="s4">✅ Report ready</span>
+    </div>
+  </div>
+</div>
+
+<!-- ░░ RESULTS ░░ -->
+<div id="page-results" class="page">
+  <nav class="results-nav">
+    <div class="logo">
+      <span class="logo-icon">⚡</span>
+      <span class="logo-text">ResumeIQ</span>
+    </div>
+    <button class="btn-secondary" id="new-analysis-btn">↩ New Analysis</button>
+  </nav>
+
+  <div class="results-container">
+
+    <!-- TOP SCORECARD -->
+    <section class="scorecard">
+      <div class="score-left">
+        <h1 id="candidate-name">Your Resume</h1>
+        <p id="career-level-badge" class="level-badge"></p>
+        <p id="summary-text" class="summary-text"></p>
+      </div>
+      <div class="score-right">
+        <div class="score-ring-wrap">
+          <svg class="score-ring" viewBox="0 0 120 120">
+            <circle class="ring-bg" cx="60" cy="60" r="50"/>
+            <circle class="ring-fill" id="score-arc" cx="60" cy="60" r="50"
+                    stroke-dasharray="314.159" stroke-dashoffset="314.159"/>
+          </svg>
+          <div class="score-inner">
+            <span id="score-number" class="score-number">0</span>
+            <span class="score-label">/ 100</span>
+            <span id="grade-badge" class="grade-badge">–</span>
+          </div>
+        </div>
+        <div class="ats-row">
+          <span class="ats-label">ATS Score</span>
+          <div class="ats-bar-wrap">
+            <div class="ats-bar" id="ats-bar"></div>
+          </div>
+          <span id="ats-score-num" class="ats-num">0</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION SCORES -->
+    <section class="section-scores">
+      <h2 class="section-title">Section Breakdown</h2>
+      <div class="section-grid" id="section-grid"></div>
+    </section>
+
+    <!-- 3-COL CHIPS -->
+    <section class="chips-row">
+      <div class="chip-group">
+        <h3>💪 Key Strengths</h3>
+        <ul id="strengths-list" class="chip-list green"></ul>
+      </div>
+      <div class="chip-group">
+        <h3>🚨 Critical Improvements</h3>
+        <ul id="improvements-list" class="chip-list red"></ul>
+      </div>
+      <div class="chip-group">
+        <h3>⚡ Quick Wins</h3>
+        <ul id="quickwins-list" class="chip-list blue"></ul>
+      </div>
+    </section>
+
+    <!-- KEYWORDS -->
+    <section class="keywords-section">
+      <h2 class="section-title">Keyword Analysis</h2>
+      <div class="keywords-grid">
+        <div class="kw-box found">
+          <h4>✅ Keywords Found</h4>
+          <div id="kw-found" class="tag-cloud"></div>
+        </div>
+        <div class="kw-box missing">
+          <h4>❌ Missing Keywords</h4>
+          <div id="kw-missing" class="tag-cloud"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ATS TIPS -->
+    <section class="ats-section">
+      <h2 class="section-title">ATS Compatibility</h2>
+      <p id="ats-verdict" class="ats-verdict"></p>
+      <ul id="ats-tips" class="ats-tips-list"></ul>
+    </section>
+
+    <!-- BULLET REWRITES -->
+    <section class="rewrites-section" id="rewrites-section">
+      <h2 class="section-title">✍️ Bullet Point Rewrites</h2>
+      <div id="rewrites-list" class="rewrites-list"></div>
+    </section>
+
+    <!-- INDUSTRY FIT -->
+    <section class="industry-section">
+      <h2 class="section-title">🏢 Best Industry Fit</h2>
+      <div id="industry-tags" class="tag-cloud large"></div>
+    </section>
+
+  </div>
+</div>
+
+<!-- ░░ ERROR TOAST ░░ -->
+<div id="toast" class="toast hidden">
+  <span id="toast-msg"></span>
+  <button onclick="hideToast()">✕</button>
+</div>
+
+<script src="/static/js/main.js"></script>
+</body>
+</html>
+
