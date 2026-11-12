@@ -33,7 +33,7 @@ pip install -r requirements.txt
 ### 2. Set your API key
 Create a `.env` file (or set the env var directly):
 ```
-GOOGLE_API_KEY=your_google_api_key_here # Or anything other LLM key of your choice
+GOOGLE_API_KEY=your_google_api_key_here # Or any other LLM key of your choice
 ```
 
 ### 3. Run
